@@ -113,7 +113,7 @@ permissions:
 docker run --rm \
   -v "$(pwd)/downloads:/app/downloads" \
   -v "$(pwd)/cookies.txt:/cookies.txt:ro" \
-  ghcr.io/<your-user>/yt-dlp-downloader:latest \
+  ghcr.io/irungupeter/yt-dlp-downloader:latest \
   --cookies /cookies.txt "https://www.instagram.com/p/xxxxx/"
 ```
 
@@ -121,7 +121,7 @@ Download without cookies:
 
 ```bash
 docker run --rm -v "$(pwd)/downloads:/app/downloads" \
-  ghcr.io/<your-user>/yt-dlp-downloader:latest "https://www.youtube.com/watch?v=..."
+  ghcr.io/irungupeter/yt-dlp-downloader:latest "https://www.youtube.com/watch?v=..."
 ```
 
 > `-v "$(pwd)/downloads:/app/downloads"` maps the container's default download
@@ -136,7 +136,7 @@ root. To write files owned by your user, run with `--user "$(id -u):$(id -g)"`:
 ```bash
 docker run --rm --user "$(id -u):$(id -g)" \
   -v "$(pwd)/downloads:/app/downloads" \
-  ghcr.io/<your-user>/yt-dlp-downloader:latest "URL"
+  ghcr.io/irungupeter/yt-dlp-downloader:latest "URL"
 ```
 
 ### docker compose
@@ -153,6 +153,42 @@ docker compose run --rm ydl "https://www.instagram.com/p/xxxxx/"
 docker build -t yt-dlp-downloader .
 docker run --rm -v "$(pwd)/downloads:/app/downloads" yt-dlp-downloader "URL"
 ```
+
+### Deploy on a home server
+
+The image is published automatically to GitHub Container Registry whenever
+changes are pushed to `main` (via the GitHub Actions workflow):
+
+```text
+ghcr.io/irungupeter/yt-dlp-downloader:latest
+```
+
+On your server (Docker installed), one-off download:
+
+```bash
+docker run --rm \
+  -v "$HOME/yt-downloads:/app/downloads" \
+  -v "$HOME/cookies.txt:/cookies.txt:ro" \
+  ghcr.io/irungupeter/yt-dlp-downloader:latest \
+  --cookies /cookies.txt "https://www.instagram.com/p/xxxxx/"
+```
+
+Run files as your user instead of root:
+
+```bash
+docker run --rm --user "$(id -u):$(id -g)" \
+  -v "$HOME/yt-downloads:/app/downloads" \
+  ghcr.io/irungupeter/yt-dlp-downloader:latest "URL"
+```
+
+Pull the latest image on the server after updates:
+
+```bash
+docker pull ghcr.io/irungupeter/yt-dlp-downloader:latest
+```
+
+> First pull may require a one-time login to GHCR if the repo is private. This
+> repo is **public**, so no login is needed.
 
 ---
 

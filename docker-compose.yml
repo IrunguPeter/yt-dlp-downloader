@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   ydl:
-    image: ghcr.io/your-user/yt-dlp-downloader:latest
+    image: ghcr.io/irungupeter/yt-dlp-downloader:latest
     build: .
     # Run as current user so downloaded files are owned by you, not root.
     user: "${UID:-0}:${GID:-0}"
