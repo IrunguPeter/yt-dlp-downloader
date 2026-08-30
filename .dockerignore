@@ -1,0 +1,7 @@
+downloads/
+cookies.txt
+*.cookies.txt
+www.instagram.com_cookies.txt
+.git/
+__pycache__/
+*.pyc

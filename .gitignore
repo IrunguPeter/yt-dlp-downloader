@@ -1,0 +1,8 @@
+downloads/
+__pycache__/
+*.pyc
+
+# Never commit cookies / secrets
+*.cookies.txt
+cookies.txt
+www.instagram.com_cookies.txt

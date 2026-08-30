@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  ydl:
+    image: ghcr.io/your-user/yt-dlp-downloader:latest
+    build: .
+    # Run as current user so downloaded files are owned by you, not root.
+    user: "${UID:-0}:${GID:-0}"
+    volumes:
+      # Where downloaded media is written (maps to the script's default
+      # `downloads/` folder). Change the host path if you prefer.
+      - ./downloads:/app/downloads
+      # Optional: mount an Instagram cookies.txt (read-only) for authed downloads.
+      - ./cookies.txt:/cookies.txt:ro
+    # `docker compose run` is required because this is a one-shot CLI.
+    stdin_open: true
+    tty: true
+    command: --help
