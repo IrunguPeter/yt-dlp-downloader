@@ -13,7 +13,61 @@ Works on **Windows**, **Linux**, and in **Docker**.
 
 ---
 
-## Windows
+## Web UI (recommended)
+
+A local browser interface built with Flask. No need to touch the command line —
+paste URLs, upload a URL list, set a destination folder, add Instagram cookies
+and watch live progress in the browser.
+
+### Install
+
+```bash
+python3 -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt flask
+```
+
+### Run
+
+```bash
+./ui.sh            # or: python3 webapp.py
+```
+
+Then open **http://127.0.0.1:5000** in your browser.
+
+Options:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT`   | `5000`  | Port to listen on |
+| `HOST`   | `127.0.0.1` | Bind address (use `0.0.0.0` to expose on your network) |
+
+```bash
+PORT=8080 HOST=0.0.0.0 ./ui.sh
+```
+
+Using **Docker**? The web UI also runs in the container:
+
+```bash
+docker build -t yt-dlp-downloader-ui .
+docker run --rm -p 5000:5000 \
+  -v "$(pwd)/downloads:/app/downloads" \
+  yt-dlp-downloader-ui python webapp.py
+```
+
+### What the UI supports
+
+- Paste one or more URLs (one per line) and start downloads
+- Upload a `.txt` file of URLs
+- Upload a `cookies.txt` for Instagram login (stored under `cookies/`, git-ignored)
+- Toggle audio-only (MP3) extraction
+- Choose a destination folder (defaults to `downloads/`)
+- Live per-job progress with a scrolling log
+- Browse and re-download previously saved files
+
+---
+
+## Command line
 
 ### Installation
 
@@ -25,6 +79,14 @@ pip install yt-dlp
 
 ```
 python download_media.py [URL...] [options]
+```
+
+On Linux/macOS you can use the bundled `run.sh` wrapper (no need to activate a
+venv manually — it uses the one in `venv/`):
+
+```bash
+./run.sh "https://www.youtube.com/watch?v=..."
+./run.sh --audio mp3 "URL"
 ```
 
 Download an Instagram reel/post:
